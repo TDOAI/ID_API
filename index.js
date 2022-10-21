@@ -20,7 +20,7 @@ fastify.get('/', async (request, reply) => {
 
 fastify.get('/slider', async (request, reply) => {
     const message = await fetch_movie();
-    reply.type('application/json').code(200).send(JSON.stringify(message));
+    reply.type('application/json').code(200).send(message);
 });
   
   // Run the server!
