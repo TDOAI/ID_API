@@ -76,7 +76,8 @@ async function main() {
     const movies = await fetch_movie();
     const tvs = await fetch_tv();
     const res = await [...new Set([...movies, ...tvs])]
-    await getMultipleRandom(res, 8)
+    const mes = await getMultipleRandom(res, 8);
+    return mes
 }
 
 
