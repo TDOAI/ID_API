@@ -9,7 +9,7 @@ await fastify.register(
     import('@fastify/express'),
     { threshold: 2048 }
 );
-import { fetch_movie } from './slider.js';
+import { main } from './slider.js';
 
 fastify.use(compression());
 fastify.get('/', async (request, reply) => {
@@ -19,7 +19,7 @@ fastify.get('/', async (request, reply) => {
 });
 
 fastify.get('/slider', async (request, reply) => {
-    const message = await fetch_movie();
+    const message = await main();
     reply.type('application/json').code(200).send(message);
 });
   
