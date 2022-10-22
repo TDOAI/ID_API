@@ -15,7 +15,7 @@ async function fetch_movie() {
     const arr = []
     const client = new MongoClient(db);
     await client.connect();
-    const collection = await client.db().collection('movies');
+    const collection = client.db().collection('movies');
     const page_1 = await axios.get(movie_url_1);
     const res_1 = await page_1.data.results;
     const page_2 = await axios.get(movie_url_2);
@@ -34,11 +34,10 @@ async function fetch_movie() {
             top_arr.push(arr[i]);
         }
     }
-    const sorted = sort(top_arr).desc(en => en.vote_average);
-    const sliced = sorted.splice(0, 10);
     client.close();
-    return sliced
+    return top_arr
 }
+
 
 
 export { fetch_movie }
