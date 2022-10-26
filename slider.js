@@ -53,7 +53,7 @@ async function fetch_tv() {
     await Promise.all(promises);
     const top_arr = [];
     for (let i=0; i < arr.length; i++) {
-        if (arr[i].vote_average > 7) {
+        if (arr[i].vote_average > 7.6) {
             top_arr.push(arr[i]);
         }
     }
