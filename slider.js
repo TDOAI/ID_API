@@ -20,10 +20,7 @@ async function fetch_movie() {
     const collection = client.db().collection('movies');
     const page_1 = await axios.get(movie_url_1);
     const res_1 = await page_1.data.results;
-    const page_2 = await axios.get(movie_url_2);
-    const res_2 = await page_2.data.results;
-    const res = await [...new Set([...res_1, ...res_2])]
-    const promises = await (res || []).map(async ob => {
+    const promises = await (res_1 || []).map(async ob => {
         const ObFromDb = await collection.findOne({ tmdb_id: ob.id.toString() })
         if (ObFromDb !== null) {
             arr.push(ob);
@@ -46,11 +43,8 @@ async function fetch_tv() {
     await client.connect();
     const collection = client.db().collection('tvshows');
     const page_1 = await axios.get(tv_url_1);
-    const res_1 = await page_1.data.results;
-    const page_2 = await axios.get(tv_url_2);
-    const res_2 = await page_2.data.results;
-    const res = await [...new Set([...res_1, ...res_2])]
-    const promises = await (res || []).map(async ob => {
+    const res_2 = await page_1.data.results;
+    const promises = await (res_2 || []).map(async ob => {
         const ObFromDb = await collection.findOne({ tmdb_id: ob.id.toString() })
         if (ObFromDb !== null) {
             arr.push(ob);
@@ -59,7 +53,7 @@ async function fetch_tv() {
     await Promise.all(promises);
     const top_arr = [];
     for (let i=0; i < arr.length; i++) {
-        if (arr[i].vote_average > 7.6) {
+        if (arr[i].vote_average > 7) {
             top_arr.push(arr[i]);
         }
     }
@@ -79,6 +73,7 @@ async function main() {
     const mes = await getMultipleRandom(res, 8);
     return mes
 }
+
 
 
 export { main }
