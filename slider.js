@@ -10,7 +10,7 @@ const tv_url_1 = `${base_url}trending/tv/day?api_key=${api_key}&page=1`;
 const db = process.env.DB;
 
 const client = new MongoClient(db);
-let array = []
+const array = []
 
 async function fetch() {
     try {

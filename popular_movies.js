@@ -15,7 +15,7 @@ const movie_url_2 = `${base_url}trending/tv/day?api_key=${api_key}&page=2`;
 const movie_url_3 = `${base_url}trending/movie/day?api_key=${api_key}&page=3`;
 const movie_url_4 = `${base_url}trending/tv/day?api_key=${api_key}&page=4`;
 
-let arr = []
+const arr = []
 
 async function fetch() {
     const page_1 = axios.get(movie_url_1);
