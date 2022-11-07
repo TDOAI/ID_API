@@ -15,7 +15,6 @@ const movie_url_2 = `${base_url}trending/tv/day?api_key=${api_key}&page=2`;
 const movie_url_3 = `${base_url}trending/movie/day?api_key=${api_key}&page=3`;
 const movie_url_4 = `${base_url}trending/tv/day?api_key=${api_key}&page=4`;
 
-const arr = []
 
 async function fetch() {
     const page_1 = axios.get(movie_url_1);
@@ -34,6 +33,7 @@ async function fetch() {
 }
 
 async function check(res, collection_movie) {
+    const arr = []
     const promises = await (res|| []).map(async card => {
         const movies_FromDb = await collection_movie.findOne({ tmdb_id: card.id.toString() })
         // console.log(movies_FromDb)
@@ -42,6 +42,7 @@ async function check(res, collection_movie) {
             }
         });;
     await Promise.all(promises);
+    return arr
 }
 
 async function popular_movies() {
@@ -54,10 +55,10 @@ async function popular_movies() {
         console.log("Connected successfully to server");
         const collection_movie = client.db().collection('movies');
         const res  = await fetch().catch(console.dir);
-        await check(res, collection_movie)
+        const array = await check(res, collection_movie)
         await client.close();
         // console.log(arr.length)
-        return arr
+        return array
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
