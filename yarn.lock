@@ -1049,11 +1049,6 @@ fast-redact@^3.1.1:
   resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.1.2.tgz#d58e69e9084ce9fa4c1a6fa98a3e1ecf5d7839aa"
   integrity sha512-+0em+Iya9fKGfEQGcd62Yv6onjBmmhV1uh86XVfOU8VwAe6kaFdQCWI9s0/Nnugx5Vd9tdbZ7e6gE2tR9dzXdw==
 
-fast-sort@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/fast-sort/-/fast-sort-3.2.0.tgz#9339d88953fad70ba82a404dc50be0ecc5f9db87"
-  integrity sha512-EgQtkmWo2Icq6uei57fTrZAKayL9b4OISU1613737AuLcIbAZ57tcOtGaK2A7zO54kk97wOnSw6INDA++rjMAQ==
-
 fast-uri@^2.0.0, fast-uri@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.1.0.tgz#9279432d6b53675c90116b947ed2bbba582d6fb5"
