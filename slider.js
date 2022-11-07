@@ -10,6 +10,7 @@ const tv_url_1 = `${base_url}trending/tv/day?api_key=${api_key}&page=1`;
 const db = process.env.DB;
 
 const client = new MongoClient(db);
+let array = []
 
 async function run() {
     try {
@@ -28,25 +29,27 @@ async function run() {
     }
   }
 
-  async function check(res_movie, res_tv, collection_movie, collection_tv) {
+async function check_movie(res_movie, collection_movie) {
     const arr = []
     const promise1 = await (res_movie|| []).map(async card => {
         const movies_FromDb = await collection_movie.findOne({ tmdb_id: card.id.toString() })
         // console.log(movies_FromDb)
             if (movies_FromDb !== null && card.vote_average > 7) {
-                arr.push(card);
+                array.push(card);
             }
-        });
+        });;
+    await Promise.all(promise1);
+}
+
+async function check_tv(res_tv, collection_tv) {
     const promise2 = await (res_tv|| []).map(async card => {
         const movies_FromDb = await collection_tv.findOne({ tmdb_id: card.id.toString() })
         // console.log(movies_FromDb)
             if (movies_FromDb !== null && card.vote_average > 7.6) {
-                arr.push(card);
+                array.push(card);
             }
         });
-    await Promise.all(promise1);
     await Promise.all(promise2);
-    return arr
 }
 
 
@@ -68,9 +71,11 @@ async function slider() {
         const res  = await  run().catch(console.dir);
         const res_movie = await res[0]
         const res_tv = await res[1]
-        const array = await check(res_movie, res_tv, collection_movie, collection_tv)
+        await check_movie(res_movie, collection_movie)
+        await check_tv(res_tv, collection_tv)
         const mes = await getMultipleRandom(array, 8);
         await client.close();
+        // console.log(mes)
         return mes
     } finally {
         // Ensures that the client will close when you finish/error
