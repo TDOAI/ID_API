@@ -2,6 +2,7 @@ import compression from 'compression';
 import dotenv from 'dotenv';
 dotenv.config();
 import Fastify from 'fastify';
+import { popular_movies } from './popular_movies.js';
 const fastify = Fastify({
   logger: false,
 });
@@ -23,10 +24,10 @@ fastify.get('/slider', async (request, reply) => {
     reply.type('application/json').code(200).send(JSON.stringify(message));
 });
 
-// fastify.get('/popular/movies', async (request, reply) => {
-//   const message = await main();
-//   reply.type('application/json').code(200).send(JSON.stringify(message));
-// });
+fastify.get('/popular/movies', async (request, reply) => {
+  const message = await popular_movies();
+  reply.type('application/json').code(200).send(JSON.stringify(message));
+});
   
   // Run the server!
 fastify.listen({ port: 3000 }, (err, address) => {
