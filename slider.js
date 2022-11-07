@@ -12,7 +12,7 @@ const db = process.env.DB;
 const client = new MongoClient(db);
 let array = []
 
-async function run() {
+async function fetch() {
     try {
         const page_movie = axios.get(movie_url_1);
         const page_tv = axios.get(tv_url_1);
@@ -30,7 +30,6 @@ async function run() {
   }
 
 async function check_movie(res_movie, collection_movie) {
-    const arr = []
     const promise1 = await (res_movie|| []).map(async card => {
         const movies_FromDb = await collection_movie.findOne({ tmdb_id: card.id.toString() })
         // console.log(movies_FromDb)
@@ -68,7 +67,7 @@ async function slider() {
         console.log("Connected successfully to server");
         const collection_movie = client.db().collection('movies');
         const collection_tv = client.db().collection('tvshows');
-        const res  = await  run().catch(console.dir);
+        const res  = await fetch().catch(console.dir);
         const res_movie = await res[0]
         const res_tv = await res[1]
         await check_movie(res_movie, collection_movie)
