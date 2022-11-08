@@ -56,6 +56,25 @@ async function getMultipleRandom(arr, num) {
     return shuffled.slice(0, num);
 }
 
+async function tagline(mes) {
+    const arr = []
+    const promises = await (mes|| []).map(async card => {
+        if (card.media_type == "tv") {
+            const req = axios.get(`https://api.themoviedb.org/3/tv/${card.id}?api_key=${api_key}&language=en-US`)
+            const res = (await req).data.tagline
+            card["tagline"] = res
+            arr.push(card)
+        } else {
+            const req = axios.get(`https://api.themoviedb.org/3/movie/${card.id}?api_key=${api_key}&language=en-US`)
+            const res = (await req).data.tagline
+            card["tagline"] = res
+            arr.push(card)
+        }
+        });
+    await Promise.all(promises);
+    return arr
+}
+
 async function slider() {
     try {
         const array = []
@@ -73,9 +92,9 @@ async function slider() {
         await check_movie(res_movie, collection_movie, array)
         await check_tv(res_tv, collection_tv, array)
         const mes = await getMultipleRandom(array, 8);
+        const response = await tagline(mes)
         await client.close();
-        // console.log(mes)
-        return mes
+        return response
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
