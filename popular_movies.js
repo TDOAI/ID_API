@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import axios from "axios";
 import { MongoClient } from 'mongodb';
+import {getPlaiceholder} from 'plaiceholder'
 
 
 const base_url = process.env.BASE_URL;
@@ -9,7 +10,7 @@ const api_key = process.env.API_KEY;
 const db = process.env.DB;
 const client = new MongoClient(db);
 
-
+const image_base = "https://image.tmdb.org/t/p/w500"
 const movie_url_1 = `${base_url}trending/movie/day?api_key=${api_key}&page=1`;
 const movie_url_2 = `${base_url}trending/tv/day?api_key=${api_key}&page=2`;
 const movie_url_3 = `${base_url}trending/movie/day?api_key=${api_key}&page=3`;
@@ -45,6 +46,18 @@ async function check(res, collection_movie) {
     return arr
 }
 
+async function blurhash(array) {
+    const arr = []
+    const promises = await (array|| []).map(async card => {
+        const placeholder = await getPlaiceholder(`${image_base}${card.poster_path || card.backdrop_path}`)
+        const res = placeholder.blurhash.hash
+        card["blurhash"] = res
+        arr.push(card)
+    });
+    await Promise.all(promises);
+    return arr
+}
+
 async function popular_movies() {
     try {
         const client = new MongoClient(db);
@@ -56,14 +69,14 @@ async function popular_movies() {
         const collection_movie = client.db().collection('movies');
         const res  = await fetch().catch(console.dir);
         const array = await check(res, collection_movie)
+        const final = await blurhash(array)
         await client.close();
-        // console.log(arr.length)
-        return array
+        // console.log(final[0])
+        return final
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
     }
 }
-
 
 export { popular_movies }
