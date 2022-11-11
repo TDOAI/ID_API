@@ -11,10 +11,10 @@ const db = process.env.DB;
 const client = new MongoClient(db);
 
 const image_base = "https://image.tmdb.org/t/p/w500"
-const movie_url_1 = `${base_url}trending/movie/day?api_key=${api_key}&page=1`;
-const movie_url_2 = `${base_url}trending/tv/day?api_key=${api_key}&page=2`;
-const movie_url_3 = `${base_url}trending/movie/day?api_key=${api_key}&page=3`;
-const movie_url_4 = `${base_url}trending/tv/day?api_key=${api_key}&page=4`;
+const movie_url_1 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=1`;
+const movie_url_2 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=2`;
+const movie_url_3 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=3`;
+const movie_url_4 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=4`;
 
 
 async function fetch() {
