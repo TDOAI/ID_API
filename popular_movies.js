@@ -14,20 +14,17 @@ const image_base = "https://image.tmdb.org/t/p/w500"
 const movie_url_1 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=1`;
 const movie_url_2 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=2`;
 const movie_url_3 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=3`;
-const movie_url_4 = `${base_url}movie/popular?api_key=${api_key}&language=en-US&page=4`;
 
 
 async function fetch() {
     const page_1 = axios.get(movie_url_1);
     const page_2 = axios.get(movie_url_2);
     const page_3 = axios.get(movie_url_3);
-    const page_4 = axios.get(movie_url_4);
-    const res = await Promise.all([page_1, page_2, page_3, page_4]).then(axios.spread((...responses) => {
+    const res = await Promise.all([page_1, page_2, page_3]).then(axios.spread((...responses) => {
         const response_1 = responses[0].data.results
         const response_2 = responses[1].data.results
         const response_3 = responses[2].data.results
-        const response_4 = responses[3].data.results
-        const array = [...response_1, ...response_2, ...response_3, ...response_4]
+        const array = [...response_1, ...response_2, ...response_3]
         return array
     }));
     return res
