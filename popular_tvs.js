@@ -52,6 +52,7 @@ async function blurhash(array) {
         const placeholder = await getPlaiceholder(`${image_base}${card.poster_path || card.backdrop_path}`)
         const res = placeholder.blurhash.hash
         card["blurhash"] = res
+        card["media_type"] = "tv"
         arr.push(card)
     });
     await Promise.all(promises);

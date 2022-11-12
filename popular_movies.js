@@ -52,6 +52,7 @@ async function blurhash(array) {
         const placeholder = await getPlaiceholder(`${image_base}${card.poster_path || card.backdrop_path}`)
         const res = placeholder.blurhash.hash
         card["blurhash"] = res
+        card["media_type"] = "movie"
         arr.push(card)
     });
     await Promise.all(promises);
@@ -78,5 +79,6 @@ async function popular_movies() {
         await client.close();
     }
 }
+
 
 export { popular_movies }
